@@ -4,7 +4,7 @@ from django.contrib.admin.widgets import (
     ManyToManyRawIdWidget, ForeignKeyRawIdWidget, AdminFileWidget)
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.template.loader import render_to_string
-from django.utils.encoding import smart_unicode
+from django.utils.encoding import smart_text
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
@@ -27,7 +27,7 @@ def render_edit_link(obj, db_field, popup=True, request=None):
     change_permission = '%s.change_%s' % (
         obj._meta.app_label, obj._meta.object_name.lower())
     if request and not request.user.has_perm(change_permission, obj):
-        return u'<strong>%s</strong>' % escape(smart_unicode(obj))
+        return u'<strong>%s</strong>' % escape(smart_text(obj))
     try:
         change_url = reverse(
             "admin:%s_%s_change" % (
@@ -42,7 +42,7 @@ def render_edit_link(obj, db_field, popup=True, request=None):
             {
             'change_url': change_url,
             'input_id': input_id,
-            'object_string': escape(smart_unicode(obj)),
+            'object_string': escape(smart_text(obj)),
             'obj': obj,
             'popup': popup,
             })
